@@ -36,14 +36,12 @@ module.exports = (router) => {
     res.http200({ user: user });
   });
 
-  router.get("/get-posts", async (req, res) => {
+  router.get("/posts", async (req, res) => {
     try {
-      const user = await db.Users.findOne({ _id: req.user._id }).populate({
-        path: "posts",
-        select: ["-user"],
-        match: { deleted: false },
-      });
-      res.http200({ user: user });
+      const posts = await db.Posts.find({ user: req.user._id }).populate(
+        "user"
+      );
+      res.http200({ posts: posts });
     } catch (error) {
       res.http400({ error: error.toString() });
     }

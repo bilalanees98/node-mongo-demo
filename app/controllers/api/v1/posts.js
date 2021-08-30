@@ -19,12 +19,9 @@ module.exports = (router) => {
 
   router.post("/", async (req, res) => {
     try {
-      const user = await db.Users.findOne({ _id: req.user._id });
-      req.body.user = user;
+      req.body.user = req.user;
 
       const post = await db.Posts.create(req.body);
-      user.posts.push(post);
-      await user.save();
       res.http200({ data: post });
     } catch (error) {
       res.http400({ error: error.toString() });

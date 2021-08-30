@@ -11,7 +11,6 @@ const schema = new mongoose.Schema(
     password: { type: String, select: false },
     phoneNumber: { type: String },
     about: { type: String },
-    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Posts" }],
     picture: {
       type: String,
       default: "https://s3.amazonaws.com/37assets/svn/765-default-avatar.png",
