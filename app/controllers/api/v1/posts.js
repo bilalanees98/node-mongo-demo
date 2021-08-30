@@ -1,7 +1,6 @@
 const db = global.db;
-const validator = require("../../../lib/validators/categories");
+const validator = require("../../../lib/validators/posts");
 
-//TODO: add validation on post atleast
 module.exports = (router) => {
   router.get("/", async (req, res) => {
     const posts = await db.Posts.find({ deleted: false })
@@ -17,10 +16,9 @@ module.exports = (router) => {
     res.http200({ data: post });
   });
 
-  router.post("/", async (req, res) => {
+  router.post("/", validator.addPost, async (req, res) => {
     try {
       req.body.user = req.user;
-
       const post = await db.Posts.create(req.body);
       res.http200({ data: post });
     } catch (error) {
